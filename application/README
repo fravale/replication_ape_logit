@@ -1,0 +1,27 @@
+Replication Package for "Conditional inference and bias reduction for partial
+effects estimation of fixed-effects logit models"
+
+Francesco Bartolucci, Claudia Pigini and Francesco Valentini
+
+
+Files:
+
+ape_appli.R: runs estimation of the models reported in Tables 1 and 2;
+cml_bc_ape.R: performs the proposed estimator of APEs;
+jackknife_logit.R: performs the ML and Jackknife estimators;
+psid_emp_app.csv: the dataset used in empirical application.
+
+### Description of the dataset ###
+
+Source: Panel Study of Income Dynamics (1979-1985)
+
+Variables:
+- id2: indivudual identifier;
+- year: year;
+- part: labour force particiaption;
+- tempinc: log of husband's income (deviation from individual mean);
+- kd2: number of of kids, age between 0 and 2;
+- kd5: number of of kids, age between 3 and 5;
+- kd17: number of of kids, age between 6 and 17; 
+
+##################################

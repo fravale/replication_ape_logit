@@ -1,0 +1,21 @@
+Replication Package for "Conditional inference and bias reduction for partial
+effects estimation of fixed-effects logit models"
+
+Francesco Bartolucci, Claudia Pigini and Francesco Valentini
+
+Folders and files:
+
+- static/
+	-simula_ape_stat_hn.R: performs the Monte Carlo simulations for Static Logit (T=4 and T=8);
+  	-cml_bc_ape.R: performs the proposed estimator of APEs;
+	-jackknife_logit.R: performs the ML and Jackknife estimators.
+
+- static12/
+	-simula_ape_stat_hn.R: performs the Monte Carlo simulations for Static Logit (T=12);
+  	-cml_bc_ape.R: performs the proposed estimator of APEs;
+	-jackknife_logit.R: performs the ML and Jackknife estimators.
+
+- dynamic/
+	-simula_ape_dyn_hk.R: performs the Monte Carlo simulations for Dynamic Logit;
+  	-cml_bc_ape.R: performs the proposed estimator of APEs;
+	-jackknife_logit.R: performs the ML and Jackknife estimators.
