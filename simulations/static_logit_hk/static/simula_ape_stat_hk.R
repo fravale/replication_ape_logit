@@ -4,44 +4,44 @@
 
 ## Francesco Bartolucci, Claudia Pigini and Francesco Valentini
 ##--------------------------------------------------------------------
+
 rm(list=ls())
+
 require(cquad)
-source("jackknife_logit.R", local=TRUE) # ML and Jackknife 
+source("jackknife_logit.R") 
 source("cml_bc_ape.R")
-require(bife) # pacchetto per bias corrections
+require(bife) 
 
 
 set.seed(20210512)
 ## set simulation parameters
 size = c(100, 500)
-time = c(4,8)#,12)
+time = c(4,8) 
 nit = 1000
 be = 1
-
+sdx = pi/sqrt(3)
 
 for(n in size){
     for(T in time){
-        filename = sprintf("APEbc_stat_N%g_T%g_HN_IT%g",n, T, nit)
+        filename = sprintf("APEbc_stat_N%g_T%g_HK_IT%g",n, T, nit)
             APEML =  matrix(0,nit,1); SEML = matrix(0,nit,1); INFBML = INFAML = matrix(0,nit,1)
             APEJK   = matrix(0,nit,1);   SEJK = matrix(0,nit,1)
             APEBC  = matrix(0,nit,1); SEBC = matrix(0,nit,1)
             APECMLF = matrix(0,nit,1); SECMLF = matrix(0,nit,1);
             BCPAR = CMLPAR = matrix(0,nit,1)
             TMP  = matrix(0,nit,1)
-            for(it in 1:nit){## generate data
+
+
+        for(it in 1:nit){## generate data
                 id = (1:n)%x%rep(1,T)
                 label = unique(id)
                 X = y = eta = alpha = PE =  indr = NULL
+
                 for(i in 1:n){
-                    Xi = rep(0,T)
-                    xit0 = runif(1,-0.5,0.5)
-                    Xi[1] = 1/10 + xit0/2 + runif(1,-0.5,0.5)
-                    for(t in 2:T){
-                        Xi[t] = t/10 + Xi[t-1]/2 + runif(1,-0.5,0.5)
-                    }
+                    Xi = rnorm(T,0,sdx)
                     
                     X = c(X,Xi)
-                    alphai = rnorm(1)*rep(1,T) 
+                    alphai = mean(Xi[1:4])*rep(1,T)
                     alpha = c(alpha, alphai)
                     
                     
@@ -54,10 +54,12 @@ for(n in size){
                                         #if(sum(yi)==0 | sum(yi)==T) pe_i = 0
                     PE = c(PE,pe_i)
                 }
+
+                #browser()
                 
                 TMP[it] = mean(PE)
                 X = as.matrix(X)
-                
+                print(mean(y))
                 ## Estimation
                                       
                 ## ML
@@ -83,7 +85,7 @@ for(n in size){
                 SEBC[it] = sqrt(diag(apes_stat_bc$vcov))
 
 
-                ## CML - BC
+                ## CML + PENALIZED ML (FIRTH)
                 mod0 = cquad_basic(id,y,X)
                 be0 = mod0$coefficients
                 scv = mod0$scv
@@ -183,3 +185,4 @@ for(n in size){
        
     }
 }
+

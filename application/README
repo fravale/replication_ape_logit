@@ -8,7 +8,8 @@ Files:
 
 ape_appli.R: runs estimation of the models reported in Tables 1 and 2;
 cml_bc_ape.R: performs the proposed estimator of APEs;
-jackknife_logit.R: performs the ML and Jackknife estimators;
+jackknife_logit.R: performs the ML and Jackknife estimators for static model;
+jackknife_logit_bife.R: performs the ML and Jackknife estimators for dynamic model + bootstrapped SE;
 psid_emp_app.csv: the dataset used in empirical application.
 
 ### Description of the dataset ###

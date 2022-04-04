@@ -36,11 +36,6 @@ ape_correct  <- function(pid,yv,X,be,al,dyn=FALSE,ape){
                     g_i0 = f_i0*(1 - 2*F_i0); g_i1 = f_i1*(1 - 2*F_i1)
                     dmeff = f_i1 - f_i0
                     ddmeff = g_i1 - g_i0
-
-                    xb = x_i%*%be + al[i]
-                    F_i = as.vector(exp(xb)/(1 + exp(xb)))                
-                    f_i = F_i*(1 - F_i); f_i = matrix(f_i, Tv[i],1)
-                    g_i = f_i*(1 - 2*F_i);  g_i = matrix(g_i, Tv[i],1)
                 }else{
                     xb = x_i%*%be + al[i]
                     F_i = as.vector(exp(xb)/(1 + exp(xb)))                
@@ -66,7 +61,7 @@ ape_correct  <- function(pid,yv,X,be,al,dyn=FALSE,ape){
                 if(dyn){
                     SPEi = ((1/(Tv[i] -1))*sum(dmeff[-1]*psi_i[-Tv[i]]))
                     SPE[j] = SPE[j] + SPEi
-                   
+                    #Corri = Corri + Spei
                 }
             }
             
@@ -271,12 +266,13 @@ cquad_bc_ape <- function(id, yv, X, be, scv, J, dyn=FALSE){
         
     }
     PE[is.na(PE)] = 0
-
+    #v1 = (1/(NT^2))*nobs*cov(PE)
+    #print(v1)
     H = rbind(cbind(J11, matrix(0,k,k)), cbind(J21, J22))
     iH = solve(H)
     SS = (t(S)%*%S)
     Va =  iH %*% SS %*% t(iH)
-    Va[(k+1):(2*k), (k+1):(2*k)] = Va[(k+1):(2*k), (k+1):(2*k)]
+    Va[(k+1):(2*k), (k+1):(2*k)] = Va[(k+1):(2*k), (k+1):(2*k)] #+ v1
     se = sqrt(diag(Va))
     se = se[(k+1):(2*k)]
 
@@ -286,7 +282,7 @@ cquad_bc_ape <- function(id, yv, X, be, scv, J, dyn=FALSE){
     alex = al[export]
 
     
-    out = list(ape = ape_bc, al = alex , PE = PE, se = se, Va = Va, nobs = nobs, AL = AL)
+    out = list(ape = ape_bc, al = alex , PE = PE, se = se, Va = Va, nobs = nobs, AL = AL, apeu = ape)
     
 }
 

@@ -61,7 +61,7 @@ ape_correct  <- function(pid,yv,X,be,al,dyn=FALSE,ape){
                 if(dyn){
                     SPEi = ((1/(Tv[i] -1))*sum(dmeff[-1]*psi_i[-Tv[i]]))
                     SPE[j] = SPE[j] + SPEi
-                    Corri = Corri + Spei
+                    #Corri = Corri + Spei
                 }
             }
             
@@ -175,7 +175,7 @@ cquad_bc_ape <- function(id, yv, X, be, scv, J, dyn=FALSE){
     ape = ua$ape
 
     ## APE correction
-    abc = ape_correct(pid,yv,X,be,alp,dyn=FALSE,ape)
+    abc = ape_correct(pid,yv,X,be,alp,dyn=dyn,ape)
     ape_bc = abc$ape 
 
     
@@ -282,7 +282,7 @@ cquad_bc_ape <- function(id, yv, X, be, scv, J, dyn=FALSE){
     alex = al[export]
 
     
-    out = list(ape = ape_bc, al = alex , PE = PE, se = se, Va = Va, nobs = nobs, AL = AL)
+    out = list(ape = ape_bc, al = alex , PE = PE, se = se, Va = Va, nobs = nobs, AL = AL, apeu = ape)
     
 }
 

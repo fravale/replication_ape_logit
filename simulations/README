@@ -5,17 +5,38 @@ Francesco Bartolucci, Claudia Pigini and Francesco Valentini
 
 Folders and files:
 
-- static/
-	-simula_ape_stat_hn.R: performs the Monte Carlo simulations for Static Logit (T=4 and T=8);
-  	-cml_bc_ape.R: performs the proposed estimator of APEs;
-	-jackknife_logit.R: performs the ML and Jackknife estimators.
-
-- static12/
-	-simula_ape_stat_hn.R: performs the Monte Carlo simulations for Static Logit (T=12);
-  	-cml_bc_ape.R: performs the proposed estimator of APEs;
-	-jackknife_logit.R: performs the ML and Jackknife estimators.
-
-- dynamic/
+- chi2alpha/
 	-simula_ape_dyn_hk.R: performs the Monte Carlo simulations for Dynamic Logit;
   	-cml_bc_ape.R: performs the proposed estimator of APEs;
+	-jackknife_logit_bife.R: performs the ML and Jackknife estimators + Bootstrapped SE.	
+
+- correction_effect/
+	-simula_ape_stat_hk.R: performs the Monte Carlo simulations for Static Logit;
+	-simula_ape_dyn_hk.R: performs the Monte Carlo simulations for Dynamic Logit;
+  	-cml_bc_ape.R: performs the proposed estimator of APEs;
+
+
+- dynamic_logit_hk/gamma_*/ #Common to all subfolders
+	-simula_ape_dyn_hk.R: performs the Monte Carlo simulations for Dynamic Logit (T=4,8 and T=12 separated);
+  	-cml_bc_ape.R: performs the proposed estimator of APEs;
+	-jackknife_logit_bife.R: performs the ML and Jackknife estimators + Bootstrapped SE.
+
+- nerlove_process/*
+	-simula_ape_stat_hn.R: performs the Monte Carlo simulations for Static Logit (T=4 and T=8 and T=12 separated);
+  	-cml_bc_ape.R: performs the proposed estimator of APEs;
 	-jackknife_logit.R: performs the ML and Jackknife estimators.
+
+- rare_events/
+	-simula_ape_dyn_hk.R: performs the Monte Carlo simulations for Dynamic Logit;
+  	-cml_bc_ape.R: performs the proposed estimator of APEs;
+	-jackknife_logit_bife.R: performs the ML and Jackknife estimators + Bootstrapped SE.
+
+- static_logit/*
+  	-simula_ape_stat_hk.R: performs the Monte Carlo simulations for Static Logit (T=4 and T=8 and T=12 separated);
+  	-cml_bc_ape.R: performs the proposed estimator of APEs;
+	-jackknife_logit.R: performs the ML and Jackknife estimators.
+
+- rare_events/
+	-simula_ape_dyn_hk.R: performs the Monte Carlo simulations for Dynamic Logit;
+  	-cml_bc_ape.R: performs the proposed estimator of APEs;
+	-jackknife_logit_bife.R: performs the ML and Jackknife estimators + Bootstrapped SE.		

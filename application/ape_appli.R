@@ -128,10 +128,13 @@ print(summary(apes_stat_bc))
 
 
 
+
 ### DYNAMIC LOGIT MODEL
+source("jackknife_logit_bife.R")
 
 Xp = cbind(X,l_lfp)
 Xp = Xp[year!=79,]
+
 
 
 ## ML
@@ -141,6 +144,45 @@ mlse = outml$se_be
 
 ## JK
 jkbe = outml$be_jk
+
+## Bootstrapped SE for JK
+Apejkboot = matrix(0,500,(ncol(Xp)))
+Bejkboot = matrix(0,500,(ncol(Xp)))
+cat("Bootstrap started\n")
+
+bb = 0
+while(bb<500){
+    bb = bb + 1
+    if(bb%%100==0){cat(sprintf("Bootstrap %g%% completed\n",100*(bb/500)))}
+    
+    
+    bootsamp = resampling(idp,yp,Xp)
+    yb = bootsamp$y
+    Xb = bootsamp$X
+        
+    
+    bmod_jk =  try(jackknife_logit(idp, yb, Xb, jk = TRUE, dyn = TRUE, boot=TRUE),silent=TRUE)
+    if (inherits(bmod_jk, "try-error")) {
+        bb = bb - 1
+        cat("Bootstrap: something went wrong!\n")
+    }else{                        
+        Apejkboot[bb,] = bmod_jk$ape_jk
+        Bejkboot[bb,] = bmod_jk$be_jk
+    }
+    
+}
+
+## cat("Bootstrap completed\n")
+se_ape_jk = rep(0,ncol(Xp))
+se_be_jk = rep(0,ncol(Xp))
+
+
+for(j in 1:ncol(Xp)){
+    se_ape_jk[j] =  sd(Apejkboot[,j])
+    se_be_jk[j] = sd(Bejkboot[,j])
+}
+
+
 
 
 ## CML
@@ -174,7 +216,7 @@ colnames(dmlc) <- dcoln
 print(dmlc)
 
 cat("JK\n")
-djkc = round(cbind(jkbe,mlse,2*pnorm(abs(jkbe/mlse),lower.tail=FALSE)),digits=3)
+djkc = round(cbind(jkbe,se_be_jk,2*pnorm(abs(jkbe/se_be_jk),lower.tail=FALSE)),digits=3)
 rownames(djkc) <- drowsn
 colnames(djkc) <- dcoln
 print(djkc)
@@ -199,7 +241,7 @@ colnames(dml) <- dcoln
 print(dml)
 
 cat("JK\n")
-djk = round(cbind(outml$ape_jk,outml$se_ape_jk,2*pnorm(abs(outml$ape_jk/outml$se_ape_jk),lower.tail=FALSE)),digits=3)
+djk = round(cbind(outml$ape_jk,se_ape_jk,2*pnorm(abs(outml$ape_jk/se_ape_jk),lower.tail=FALSE)),digits=3)
 rownames(djk) <- drowsn
 colnames(djk) <- dcoln
 print(djk)
